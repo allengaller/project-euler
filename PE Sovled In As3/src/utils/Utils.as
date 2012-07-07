@@ -3,6 +3,7 @@ package utils
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
 
 	public class Utils
 	{
@@ -98,6 +99,14 @@ package utils
 				factor ++;
 			}
 			return count+2;
+		}
+		//get a deepcopy of non basic data type
+		public static function getADeepCopy(obj:*):*
+		{
+			var parent:ByteArray = new ByteArray();
+			parent.writeObject(obj);
+			parent.position = 0;
+			return parent.readObject();
 		}
 	}
 }

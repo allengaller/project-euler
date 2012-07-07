@@ -1,7 +1,5 @@
 package probs
-{
-	import flash.display.Sprite;
-	
+{	
 	public class Prob1 extends Problem
 	{
 		private var length:int = 1000;

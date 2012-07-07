@@ -2,12 +2,9 @@
 #coding=utf-8
 import math
 
-i = 100
-prod = 1
-while(i>1):
-    prod *= i
-    i -= 1
-
+i = 1000
+prod = math.pow(2,i)
+print prod
 sum = 0
 while(prod > 0):
     sum += math.floor(prod%10)
