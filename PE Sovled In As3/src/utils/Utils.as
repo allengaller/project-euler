@@ -7,8 +7,19 @@ package utils
 
 	public class Utils
 	{
+		public static const leapYear:Array = [31,29,31,30,31,30,31,31,30,31,30,31];
+		public static const nonLeapYear:Array = [31,28,31,30,31,30,31,31,30,31,30,31];
+		
 		public function Utils()
 		{
+		}
+		//get a deepcopy of non basic data type
+		public static function getADeepCopy(obj:*):*
+		{
+			var parent:ByteArray = new ByteArray();
+			parent.writeObject(obj);
+			parent.position = 0;
+			return parent.readObject();
 		}
 		//get data(string) from external file
 		public static function getDataFromExternal(fileName:String, callBack:Function):void
@@ -100,13 +111,26 @@ package utils
 			}
 			return count+2;
 		}
-		//get a deepcopy of non basic data type
-		public static function getADeepCopy(obj:*):*
+		//return true if year is a leapyear
+		public static function isLeapYear(year:int):Boolean
 		{
-			var parent:ByteArray = new ByteArray();
-			parent.writeObject(obj);
-			parent.position = 0;
-			return parent.readObject();
+			return year%4 == 0 ? (year%100 == 0 ? year%400 == 0 : true) : false;
+		}
+		//return the set of divisors of int num
+		public static function getDivisors(num:int):Array
+		{
+			var divs:Array = [1];
+			var i:int = 2;
+			while(i <= Math.floor(Math.sqrt(num)) )
+			{
+				if(num % i == 0)
+				{
+					divs.push(i);
+					divs.push(num/i);
+				}
+				i++;
+			}
+			return divs;
 		}
 	}
 }

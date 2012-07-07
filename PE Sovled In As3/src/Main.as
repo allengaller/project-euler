@@ -12,7 +12,11 @@ package
 	import probs.Prob16;
 	import probs.Prob17;
 	import probs.Prob18;
+	import probs.Prob19;
 	import probs.Prob2;
+	import probs.Prob20;
+	import probs.Prob21;
+	import probs.Prob22;
 	import probs.Prob4;
 	import probs.Prob5;
 	import probs.Prob6;
@@ -21,11 +25,14 @@ package
 	import probs.Prob8;
 	import probs.Prob9;
 	
+	import utils.BigInt;
+	import utils.Utils;
+	
 	public class Main extends Sprite
 	{
 		public function Main()
 		{
-			addChild(new Prob18);
+			addChild(new Prob22);
 		}
 	}
 }
