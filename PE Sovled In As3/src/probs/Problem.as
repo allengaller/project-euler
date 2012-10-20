@@ -14,7 +14,8 @@ package probs
 		public function Problem()
 		{
 			super();
-			answer.width = 300;
+			answer.multiline = true;
+			answer.width = 400;
 			startTime = getTimer();
 		}
 		

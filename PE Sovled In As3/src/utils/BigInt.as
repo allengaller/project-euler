@@ -19,17 +19,17 @@ package utils
 			return str;
 		}
 		
-		public function product( prod:int ):BigInt
+		public function product( prod:int ,limit:Number = Number.MAX_VALUE ):BigInt
 		{
 			var prodBig:BigInt = new BigInt(this.stri);
 			for(var i:int = 1;i<prod;i++)
 			{
-				prodBig = prodBig.add( this );
+				prodBig = prodBig.add( this,limit );
 			}
 			return prodBig;
 		}
 		
-		public function add( a:BigInt ):BigInt
+		public function add( a:BigInt ,limit:Number = Number.MAX_VALUE ):BigInt
 		{
 			
 			var i:int = a.stri.length-1;
@@ -43,6 +43,10 @@ package utils
 			
 			while(i>=0 && j>=0)
 			{
+				if( bitArr.length >= limit )
+				{
+					break;
+				}
 				intA = int(a.stri.charAt(i));
 				intB = int(this.stri.charAt(j));
 				currAdd = intA+intB+lastAdd/10;
@@ -55,6 +59,10 @@ package utils
 			{
 				while(i>=0)
 				{
+					if( bitArr.length >= limit )
+					{
+						break;
+					}
 					intA = int(a.stri.charAt(i));
 					currAdd = intA + lastAdd/10;
 					lastAdd = currAdd;
@@ -73,6 +81,10 @@ package utils
 			{
 				while(j>=0)
 				{
+					if( bitArr.length >= limit )
+					{
+						break;
+					}
 					intB = int(this.stri.charAt(j));
 					currAdd = intB + lastAdd/10;
 					lastAdd = currAdd;
@@ -89,7 +101,7 @@ package utils
 			}
 			else
 			{
-				if(lastAdd>=10)
+				if(lastAdd>=10 && bitArr.length <= limit)
 				{
 					bitArr.push(Math.floor(lastAdd/10));				
 				}
