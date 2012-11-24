@@ -28,7 +28,7 @@ package utils
 			}
 			return prodBig;
 		}
-		
+
 		public function add( a:BigInt ,limit:Number = Number.MAX_VALUE ):BigInt
 		{
 			

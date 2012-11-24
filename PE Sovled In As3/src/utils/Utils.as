@@ -5,8 +5,6 @@ package utils
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
-	import org.osmf.traits.ISpatial;
-
 	/**
 	 *  Utils is a functional class.<br>
 	 * It provide static functions that will help for math problem solve.
@@ -33,6 +31,34 @@ package utils
 			if( !Primers.length )
 			{
 				getDataFromExternal( "external/primes_1,000,000.txt", function( data:String ):void
+				{
+					if( data )
+					{
+						Primers = data.split( " " );
+						if( int(Primers[Primers.length-1]) == 0 )
+						{
+							Primers.pop();							
+						}
+						callBack.apply( null, [Primers] );
+					}
+				});
+			}
+			else
+			{
+				callBack.apply( null, [Primers] );				
+			}
+		}
+		
+		/**
+		 * Get a prime number<B>(String Type)</B> list below <B>one million</B>.
+		 * @param callBack:Function
+		 * when Primes between 1-10,000,000 loaded complete, callBack will be called and put in an array with primes into it.
+		 */
+		public static function getPrimesUnderTenMillion( callBack:Function ):void
+		{
+			if( !Primers.length )
+			{
+				getDataFromExternal( "external/primes_10,000,000.txt", function( data:String ):void
 				{
 					if( data )
 					{
@@ -308,6 +334,7 @@ package utils
 		 * For example, data is "3 2 4", spiliter is " ", then will return [3,2,4].
 		 * 
 		 */		
+		
 		public static function getIntArrayFromString( data:String, spiliter:String = " " ):Array
 		{
 			var numArr:Array = [];

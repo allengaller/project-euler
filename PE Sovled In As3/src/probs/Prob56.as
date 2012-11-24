@@ -23,13 +23,14 @@ package probs
 			var maxA:int = 0;
 			var maxB:int = 0;
 			
-			for( var a:int = 1;a<=99;a++ )
+			for( var a:int = 91;a<=99;a++ )
 			{
 				bigP = new BigInt("1");
-				for (var b:int = 1;b<=51;b++)
+				for (var b:int = 1;b<=99;b++)
 				{
 					bigP = bigP.product(a);
 					tmpSum = getBitsSum(bigP.stri);
+					//trace( a, b ,bigP.stri, tmpSum );
 					if( tmpSum > maxSum )
 					{
 						maxSum = tmpSum;
