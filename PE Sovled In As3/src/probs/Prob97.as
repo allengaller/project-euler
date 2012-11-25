@@ -15,15 +15,12 @@ package probs
 	 */
 	public class Prob97 extends Problem
 	{
+		private const MAX_POW:int = 7830457;
+		
 		public function Prob97()
 		{
-			var p:BigInt = new BigInt("2");
-			for(var i:int = 1;i<1000000;i++)
-			{
-				p = p.add(p, 11);
-			}
-			trace(i,p.stri);
-			super.showAnswer(0);
+			var result:BigInt = BigInt.pow(2, MAX_POW, 10).prod( new BigInt(28433) ).add(1);
+			super.showAnswerStr( result.toString().substr( result.digits - 10 ) );
 		}
 	}
 }

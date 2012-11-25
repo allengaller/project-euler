@@ -41,18 +41,12 @@ package probs
 		{
 			var ori:BigInt = new BigInt( num.toString() );
 			var reverse:BigInt = new BigInt( "0" );
-			var revStr:String = "";
 			for(var i:int = 0;i<50;i++)
 			{
-				revStr = "";
-				for( var j:int = ori.stri.length-1;j>=0;j--)
-				{
-					revStr += ori.stri.charAt(j);
-				}
 				
-				reverse = new BigInt( revStr );
+				reverse = new BigInt( Utils.strReverse(ori.toString()) );
 				ori = ori.add( reverse );
-				if( Utils.isParlindrome( ori.stri ) )
+				if( Utils.isParlindrome( ori.toString() ) )
 				{
 					trace( num, ori );
 					return false;

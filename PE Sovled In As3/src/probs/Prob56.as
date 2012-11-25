@@ -25,12 +25,10 @@ package probs
 			
 			for( var a:int = 91;a<=99;a++ )
 			{
-				bigP = new BigInt("1");
-				for (var b:int = 1;b<=99;b++)
+				for (var b:int = 90;b<=99;b++)
 				{
-					bigP = bigP.product(a);
-					tmpSum = getBitsSum(bigP.stri);
-					//trace( a, b ,bigP.stri, tmpSum );
+					bigP = BigInt.pow(a,b);
+					tmpSum = getBitsSum(bigP.toString());
 					if( tmpSum > maxSum )
 					{
 						maxSum = tmpSum;

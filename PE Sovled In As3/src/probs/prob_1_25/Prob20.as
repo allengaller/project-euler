@@ -1,7 +1,8 @@
 package probs.prob_1_25
 {
-	import utils.BigInt;
 	import probs.Problem;
+	
+	import utils.BigInt;
 	
 	/**
 	 * <B>Problem 20</B>
@@ -21,12 +22,12 @@ package probs.prob_1_25
 			var bigNum:BigInt = new BigInt("1");
 			while( i < 100 )
 			{
-				bigNum = bigNum.product(++i);
+				bigNum = bigNum.prod(++i);
 			}
 			var sum:int = 0;
-			for(i = 0;i<bigNum.stri.length;i++)
+			for(i = 0;i<bigNum.digits;i++)
 			{
-				sum += int(bigNum.stri.charAt(i));
+				sum += int(bigNum.toString().charAt(i));
 			}
 			super.showAnswer(sum);
 		}

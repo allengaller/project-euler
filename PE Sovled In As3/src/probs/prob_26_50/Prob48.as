@@ -1,7 +1,9 @@
 package probs.prob_26_50
 {
-	import utils.BigInt;
 	import probs.Problem;
+	
+	import utils.BigInt;
+
 	/**
 	 * <B>Problem 48</B>
 	 <div class="problem_content" role="problem">
@@ -17,15 +19,11 @@ package probs.prob_26_50
 		{
 			super();
 			var sum:BigInt = new BigInt("0");
-			var temp:BigInt;
+			var pow:BigInt;
 			for(var i:int = 1;i<=1000;i++)
 			{
-				temp = new BigInt(i.toString());
-				for (var j:int = 0;j<i-1;j++)
-				{
-					temp = temp.product( i,10 );
-				}
-				sum = sum.add( temp );
+				pow = BigInt.pow( i, i, 10 );
+				sum = sum.add( pow , 10 );
 			}
 			super.showAnswerStr( sum.toString() );
 		}

@@ -1,7 +1,8 @@
 package probs.prob_1_25
 {
-	import utils.BigInt;
 	import probs.Problem;
+	
+	import utils.BigInt;
 	
 	/**
 	 * <B>Problem 25</B>
@@ -29,20 +30,19 @@ package probs.prob_1_25
 	 */
 	public class Prob25 extends Problem
 	{
-		private var len:int = 1000;
+		private const LEN:int = 1000;
 		public function Prob25()
 		{
 			var ct:int = 2;
-			var fb_a:BigInt = new BigInt("1");
-			var fb_b:BigInt = new BigInt("1");
+			var a:String = "1";
+			var b:String = "1";
+			var tmp:String = "1";
 			
-			var temp:BigInt = new BigInt("1");
-			
-			while(fb_b.stri.length < len)
+			while(b.length < LEN)
 			{
-				temp = new BigInt(fb_b.stri);
-				fb_b = fb_b.add(fb_a);
-				fb_a = new BigInt(temp.stri);
+				tmp = b;
+				b = BigInt.strAdd( b, a );
+				a = tmp;
 				ct++;
 			}
 			super.showAnswer(ct);

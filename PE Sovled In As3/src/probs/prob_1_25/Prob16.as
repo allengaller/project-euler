@@ -1,7 +1,8 @@
 package probs.prob_1_25
 {
-	import utils.BigInt;
 	import probs.Problem;
+	
+	import utils.BigInt;
 
 	/**
 	 * <B>Problem 16</B>
@@ -22,9 +23,9 @@ package probs.prob_1_25
 				st = st.add(st);
 			}
 			var sum:int = 0;
-			for(i = 0;i<st.stri.length;i++)
+			for(i = 0;i<st.toString().length;i++)
 			{
-				sum += int(st.stri.charAt(i));
+				sum += int(st.toString().charAt(i));
 			}
 			super.showAnswer(sum);
 		}

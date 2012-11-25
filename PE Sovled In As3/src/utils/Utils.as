@@ -387,5 +387,24 @@ package utils
 			}
 			return factors; 
 		}
+		/**
+		 *Get the reversed copy of str, str will not be changed.  
+		 * @param str
+		 * @return 
+		 * 
+		 */		
+		public static function strReverse( str:String ):String
+		{
+			var i:int = str.length-1;
+			var res:String = "";
+			
+			while( i >= 0 )
+			{
+				res += str.charAt(i);
+				i --;
+			}
+			
+			return res;
+		}
 	}
 }

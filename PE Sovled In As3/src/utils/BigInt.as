@@ -1,119 +1,234 @@
 package utils
 {
-	public class BigInt extends Object
+	public class BigInt
 	{
-		private var str:String = "0";
+		private var _strNum:String;
 		
-		public function BigInt(strInt:String)
+		public static const MAX_DIGITS:int = int.MAX_VALUE;
+		
+		public function BigInt( strNum:* )
 		{
-			this.str = strInt;
+			_strNum = String(strNum);
 		}
 		
 		public function toString():String
 		{
-			return this.stri;
+			return _strNum;
 		}
-		
-		public function get stri():String
+		/**
+		 *Get the digits length of the BigInt 
+		 * @return the digits length(int) of the BigInt 
+		 * 
+		 */		
+		public function get digits():int
 		{
-			return str;
+			return _strNum.length;
 		}
-		
-		public function product( prod:int ,limit:Number = Number.MAX_VALUE ):BigInt
+		/**
+		 * Get the pow BigInt of [baseNum]^[powNum] in [limit] digits
+		 * @param baseNum
+		 * @param powNum
+		 * @param limit
+		 * @return 
+		 * 
+		 */		
+		public static function pow( baseNum:int, powNum:int, limit:int = MAX_DIGITS ):BigInt
 		{
-			var prodBig:BigInt = new BigInt(this.stri);
-			for(var i:int = 1;i<prod;i++)
+			if( baseNum == 1 || baseNum == 0 )
 			{
-				prodBig = prodBig.add( this,limit );
+				return new BigInt(baseNum);
 			}
-			return prodBig;
-		}
-
-		public function add( a:BigInt ,limit:Number = Number.MAX_VALUE ):BigInt
-		{
+			var base:BigInt;
 			
-			var i:int = a.stri.length-1;
-			var j:int = this.stri.length-1;
+			var totalLoop:int = powNum;
+			var loopCt:int = 0;
+			var totalPow:BigInt = new BigInt("1");
 			
-			var intA:int = 0;
-			var intB:int = 0;
-			var lastAdd:int = 0;
-			var currAdd:int = 0
-			var bitArr:Array = [];
-			
-			while(i>=0 && j>=0)
+			while( loopCt != powNum )
 			{
-				if( bitArr.length >= limit )
+				base = new BigInt(baseNum);
+				for( var i:int = 1;Math.pow(2,i) <= totalLoop;i++)
 				{
+					base = base.prod(base,limit);
+				}
+				//trace( "Loop: "+baseNum+"^"+Math.pow(2,i-1)+" = "+base.toString() );
+				loopCt += Math.pow(2,i-1);
+				totalLoop = totalLoop - Math.pow(2,i-1);
+				totalPow = totalPow.prod( base,limit );
+				//trace( "Sum: "+baseNum+"^"+loopCt+" = "+totalPow.toString() );
+			}
+			//trace(totalPow.toString() );
+			return totalPow;
+		}
+		/**
+		 *Get the Product BigInt of this BigInt and other Big Number in limit digits
+		 * @param prodNum:* can be a Number or a String or a BigInt 
+		 * @param limit
+		 * @return 
+		 * 
+		 */		
+		public function prod( prodNum:*, limit:int = MAX_DIGITS ):BigInt
+		{
+			var thisNumStr:String = this._strNum;
+			var prodNumStr:String = String(prodNum);
+			
+			var tmpProd:String;
+			var lastProd:String = "0";
+			
+			var prodDigit:int;
+			var addDigit:int = 0;
+			var digitProd:int;
+			
+			var prod:String = "";
+			
+			var k:int = 0;
+			
+			for(var i:int = prodNumStr.length - 1 ; i >= 0; i--)
+			{
+				if( k > limit )
+				{
+					return new BigInt( Utils.strReverse(prod) );
 					break;
 				}
-				intA = int(a.stri.charAt(i));
-				intB = int(this.stri.charAt(j));
-				currAdd = intA+intB+lastAdd/10;
-				lastAdd = currAdd;
-				bitArr.push(currAdd%10);
-				i--;
-				j--;
-			}
-			if(i>=0)
-			{
-				while(i>=0)
+					
+				prodDigit = int(prodNumStr.charAt(i));
+				tmpProd = "";
+				addDigit = 0;
+				
+				for(var j:int = thisNumStr.length - 1; j >= 0; j--)
 				{
-					if( bitArr.length >= limit )
-					{
-						break;
-					}
-					intA = int(a.stri.charAt(i));
-					currAdd = intA + lastAdd/10;
-					lastAdd = currAdd;
-					if(i == 0)
-					{
-						bitArr.push(currAdd);	
-					}
-					else
-					{
-						bitArr.push(currAdd%10);					
-					}
-					i--;
+					digitProd = (int(thisNumStr.charAt(j))*prodDigit + addDigit);
+					tmpProd += digitProd % 10;
+					addDigit = digitProd / 10;
 				}
+				tmpProd += addDigit == 0 ? "" : addDigit;
+				tmpProd = strAdd( Utils.strReverse( tmpProd ), lastProd );
+				prod += tmpProd.charAt( tmpProd.length - 1 );
+				lastProd = tmpProd.substring(0,tmpProd.length-1);
+				
+				k ++;
 			}
-			else if(j>=0)
+			return new BigInt( lastProd + Utils.strReverse(prod) );
+		}
+		/**
+		 * Get the Sum BigInt of this BigInt and an addNum in limit digits
+		 * @param addNum:* can be a Number or a String or a BigInt
+		 * @param limit
+		 * @return 
+		 * 
+		 */		
+		public function add( addNum:*, limit:int = MAX_DIGITS ):BigInt
+		{
+			var thisNumStr:String = this.digits > limit ? this._strNum.substr( this.digits - limit ) : this._strNum;
+			var addNumStr:String;
+			
+			if( addNum is BigInt )
 			{
-				while(j>=0)
+				addNumStr = addNum.digits > limit ? addNum._strNum.substr( addNum.digits - limit ) : addNum._strNum;				
+			}
+			else
+			{
+				addNumStr = String(addNum).length > limit ? String(addNum).substr( String(addNum).length - limit ) : String(addNum); 
+			}
+			
+			return new BigInt( strAdd( thisNumStr, addNumStr ) );
+		}
+		/**
+		 * Get the sum of two number string.
+		 * @param strA
+		 * @param strB
+		 * @return 
+		 * 
+		 */		
+		public static function strAdd( strA:String, strB:String ):String
+		{
+			var topDigits:String;
+			var addDigits:String;
+			var addedDigits:String;
+			var tmpStr:String;
+			
+			if( strA.length < strB.length )
+			{
+				tmpStr = strA;
+				strA = strB;
+				strB = tmpStr;
+			}
+			if( strA.length > strB.length )
+			{
+				
+				topDigits = strA.substr( 0, strA.length - strB.length );
+				addDigits = strA.substring( strA.length - strB.length );
+				addedDigits = sameDigitStrAdd( addDigits, strB );
+				if( addedDigits.length > addDigits.length )
 				{
-					if( bitArr.length >= limit )
-					{
-						break;
-					}
-					intB = int(this.stri.charAt(j));
-					currAdd = intB + lastAdd/10;
-					lastAdd = currAdd;
-					if(j == 0)
-					{
-						bitArr.push(currAdd);	
-					}
-					else
-					{
-						bitArr.push(currAdd%10);					
-					}
-					j--;
+					return addByOne(topDigits) + addedDigits.substr(1);
+				}
+				else
+				{
+					return topDigits + addedDigits;
 				}
 			}
 			else
 			{
-				if(lastAdd>=10 && bitArr.length <= limit)
-				{
-					bitArr.push(Math.floor(lastAdd/10));				
-				}
+				return sameDigitStrAdd(strA, strB);
 			}
-			
-			bitArr.reverse();
-			var add:String = "";
-			for(i = 0;i<bitArr.length;i++)
+		}
+		
+		private static function addByOne( numStr:String ):String
+		{
+			var i:int = numStr.length - 1;
+			var addDigit:int = 1;
+			var tmp:int;
+			var sum:String = "";
+			while( i >= 0 )
 			{
-				add += bitArr[i];
+				tmp = int(numStr.charAt(i)) + addDigit;
+				if( tmp > 9 )
+				{
+					addDigit = 1;
+					sum += "0";
+				}
+				else
+				{
+					sum += tmp;
+					return numStr.substring( 0, i ) + Utils.strReverse(sum);
+				}
+				i --;
 			}
-			return new BigInt(add);
+			return Utils.strReverse(sum+"1");
+		}
+		
+		private static function sameDigitStrAdd( strA:String , strB:String ):String
+		{
+			if( strA.length == strB.length )
+			{
+				var sum:String = "";
+				var addBit:int = 0;
+				
+				var i:int = strA.length-1;
+				var digitSum:int = 0;
+				while( i >= 0 )
+				{
+					digitSum = int(strA.charAt(i)) + int(strB.charAt(i)) + addBit;
+					if( digitSum > 9 )
+					{
+						addBit = 1;
+						sum += digitSum-10;
+					}
+					else
+					{
+						addBit = 0;
+						sum += digitSum;
+					}
+					i--;
+				}
+				if( digitSum > 9 )
+				{
+					sum += 1;
+				}
+				return Utils.strReverse( sum );
+			}
+			return "0";
 		}
 	}
 }

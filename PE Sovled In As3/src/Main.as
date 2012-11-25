@@ -80,7 +80,7 @@ package
 		public function Main()
 		{
 			//add prob as child
-			addChild( new Prob1 );
+			addChild( new Prob97 );
 		}
 		
 	}
